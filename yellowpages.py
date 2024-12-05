@@ -277,14 +277,16 @@ def save_to_csv(data, industry, job_title, file_name='output.csv'):
     except Exception as e:
         print(f"An error occurred while saving to CSV: {e}")
 
+
+        
 def process_first_two_urls(file_path, column_name):
     try:
         # Read the Excel file
         df = pd.read_excel(file_path, sheet_name=0)
         if column_name in df.columns:
-            urls = df[column_name].dropna().iloc[:3]  # Get the first two non-NaN URLs
-            industries = df['Industry'].dropna().iloc[:3]  # Get the corresponding industries
-            job_titles = df['Job Title'].dropna().iloc[:3]  # Get the corresponding job titles
+            urls = df[column_name].dropna().iloc[:2]  # Get the first two non-NaN URLs
+            industries = df['Industry'].dropna().iloc[:2]  # Get the corresponding industries
+            job_titles = df['Job Title'].dropna().iloc[:2]  # Get the corresponding job titles
             
             for idx, (url, industry, job_title) in enumerate(zip(urls, industries, job_titles), start=1):
                 print(f"Processing URL {idx}: {url}")
