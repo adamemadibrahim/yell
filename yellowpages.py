@@ -288,8 +288,8 @@ def process_all_urls(file_path, column_name):
             
             # Ensure the 'Industry' and 'Job Title' columns exist
             if 'Industry' in df.columns and 'Job Title' in df.columns:
-                industries = df['Industry'].dropna().iloc[0:2]  # Get the corresponding industries
-                job_titles = df['Job Title'].dropna().iloc[0:2]   # Get the corresponding job titles
+                industries = df['Industry'].dropna().iloc[0:3]  # Get the corresponding industries
+                job_titles = df['Job Title'].dropna().iloc[0:3]   # Get the corresponding job titles
                 
                 # Loop through all URLs and their corresponding industries and job titles
                 for idx, (url, industry, job_title) in enumerate(zip(urls, industries, job_titles), start=1):
