@@ -277,28 +277,20 @@ def save_to_csv(data, industry, job_title, file_name='output.csv'):
     except Exception as e:
         print(f"An error occurred while saving to CSV: {e}")
 
-def process_all_urls(file_path, column_name):
+def process_first_two_urls(file_path, column_name):
     try:
         # Read the Excel file
         df = pd.read_excel(file_path, sheet_name=0)
-        
         if column_name in df.columns:
-            # Get all non-NaN URLs from the specified column
-            urls = df[column_name].dropna().iloc[0:3]
+            urls = df[column_name].dropna().iloc[:3]  # Get the first two non-NaN URLs
+            industries = df['Industry'].dropna().iloc[:3]  # Get the corresponding industries
+            job_titles = df['Job Title'].dropna().iloc[:3]  # Get the corresponding job titles
             
-            # Ensure the 'Industry' and 'Job Title' columns exist
-            if 'Industry' in df.columns and 'Job Title' in df.columns:
-                industries = df['Industry'].dropna().iloc[0:3]  # Get the corresponding industries
-                job_titles = df['Job Title'].dropna().iloc[0:3]   # Get the corresponding job titles
-                
-                # Loop through all URLs and their corresponding industries and job titles
-                for idx, (url, industry, job_title) in enumerate(zip(urls, industries, job_titles), start=1):
-                    print(f"Processing URL {idx}: {url}")
-                    data = scrape_pages(url)  # Scrape data for the current URL
-                    output_file = f"output_{idx}.csv"  # Generate a file name for each URL
-                    save_to_csv(data, industry, job_title, file_name=output_file)
-            else:
-                print("Columns 'Industry' and 'Job Title' are required in the Excel file.")
+            for idx, (url, industry, job_title) in enumerate(zip(urls, industries, job_titles), start=1):
+                print(f"Processing URL {idx}: {url}")
+                data = scrape_pages(url)  # Scrape data for the current URL
+                output_file = f"output_{idx}.csv"  # Generate a file name for each URL
+                save_to_csv(data, industry, job_title, file_name=output_file)
         else:
             print(f"Column '{column_name}' not found in the Excel file.")
     except Exception as e:
@@ -307,4 +299,4 @@ def process_all_urls(file_path, column_name):
 # Example usage
 excel_file = "Copy of Yellow Pages Phase 1 Links Adam.xlsx"  # Update with your Excel file path
 url_column = "Yellow Pages Links"  # Update with the column name containing URLs
-process_all_urls(excel_file, url_column)
+process_first_two_urls(excel_file, url_column)
