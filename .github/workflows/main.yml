@@ -24,26 +24,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install pandas beautifulsoup4 requests openpyxl
 
-    - name: Run scraper for first URL
+    - name: Run scraper for all URLs
       run: python yellowpages.py
       env:
         INPUT_FILE: "Copy of Yellow Pages Phase 1 Links Adam.xlsx"
-        OUTPUT_FILE: "output_1.csv"
+        OUTPUT_FILE: "output_all.csv"  # If you want to output one file for all URLs
 
-    - name: Run scraper for second URL
-      run: python yellowpages.py
-      env:
-        INPUT_FILE: "Copy of Yellow Pages Phase 1 Links Adam.xlsx"
-        OUTPUT_FILE: "output_2.csv"
-
-    - name: Upload first output CSV
+    - name: Upload output CSV
       uses: actions/upload-artifact@v3
       with:
-        name: scraped-data-1
-        path: output_1.csv
-
-    - name: Upload second output CSV
-      uses: actions/upload-artifact@v3
-      with:
-        name: scraped-data-2
-        path: output_2.csv
+        name: scraped-data-all
+        path: output_all.csv
