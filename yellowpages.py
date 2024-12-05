@@ -278,24 +278,26 @@ def save_to_csv(data, industry, job_title, file_name='output.csv'):
         print(f"An error occurred while saving to CSV: {e}")
 import pandas as pd
 
-def process_all_urls(file_path):
-    # Read the Excel file
-    df = pd.read_excel(file_path)
+def process_first_two_urls(file_path, column_name):
+    try:
+        # Read the Excel file
+        df = pd.read_excel(file_path, sheet_name=0)
+        if column_name in df.columns:
+            urls = df[column_name].dropna().iloc[:2]  # Get the first two non-NaN URLs
+            industries = df['Industry'].dropna().iloc[:2]  # Get the corresponding industries
+            job_titles = df['Job Title'].dropna().iloc[:2]  # Get the corresponding job titles
+            
+            for idx, (url, industry, job_title) in enumerate(zip(urls, industries, job_titles), start=1):
+                print(f"Processing URL {idx}: {url}")
+                data = scrape_pages(url)  # Scrape data for the current URL
+                output_file = f"output_{idx}.csv"  # Generate a file name for each URL
+                save_to_csv(data, industry, job_title, file_name=output_file)
+        else:
+            print(f"Column '{column_name}' not found in the Excel file.")
+    except Exception as e:
+        print(f"An error occurred while processing the Excel file: {e}")
 
-    # Assuming the URLs are in a column called 'Yellow Pages Links'
-    urls = df['Yellow Pages Links'].dropna().tolist()
-
-    if not urls:
-        print("No URLs found in the Excel file!")
-    else:
-        print(f"Found {len(urls)} URLs.")
-
-    # Loop through URLs and process each one (add your actual scraping logic here)
-    for url in urls:
-        print(f"Processing URL: {url}")
-        # Add the scraping logic here
-
-if __name__ == "__main__":
-    input_file = os.getenv("INPUT_FILE", "Copy of Yellow Pages Phase 1 Links Adam.xlsx")
-    print(f"Input file: {input_file}")
-    process_all_urls(input_file)
+# Example usage
+excel_file = "Copy of Yellow Pages Phase 1 Links Adam.xlsx"  # Update with your Excel file path
+url_column = "Yellow Pages Links"  # Update with the column name containing URLs
+process_first_two_urls(excel_file, url_column)
