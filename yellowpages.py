@@ -284,7 +284,7 @@ def process_all_urls(file_path, column_name):
         
         if column_name in df.columns:
             # Get all non-NaN URLs from the specified column
-            urls = df[column_name].dropna()
+            urls = df[column_name].dropna()iloc[0:3]
             
             # Ensure the 'Industry' and 'Job Title' columns exist
             if 'Industry' in df.columns and 'Job Title' in df.columns:
