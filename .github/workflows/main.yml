@@ -25,13 +25,13 @@ jobs:
         pip install pandas beautifulsoup4 requests openpyxl
 
     - name: Run scraper for first URL
-      run: python yellow-latest.py
+      run: python yellowpages.py
       env:
         INPUT_FILE: "Copy of Yellow Pages Phase 1 Links Adam.xlsx"
         OUTPUT_FILE: "output_1.csv"
 
     - name: Run scraper for second URL
-      run: python yellow-latest.py
+      run: python yellowpages.py
       env:
         INPUT_FILE: "Copy of Yellow Pages Phase 1 Links Adam.xlsx"
         OUTPUT_FILE: "output_2.csv"
