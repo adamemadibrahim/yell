@@ -25,22 +25,16 @@ jobs:
         pip install pandas beautifulsoup4 requests openpyxl
 
     - name: Run scraper for first URL
-      run: python yellowpages.py
+      run: python yellow-latest.py
       env:
         INPUT_FILE: "Copy of Yellow Pages Phase 1 Links Adam.xlsx"
         OUTPUT_FILE: "output_1.csv"
 
     - name: Run scraper for second URL
-      run: python yellowpages.py
+      run: python yellow-latest.py
       env:
         INPUT_FILE: "Copy of Yellow Pages Phase 1 Links Adam.xlsx"
         OUTPUT_FILE: "output_2.csv"
-        
-    - name: Run scraper for third URL
-      run: python yellowpages.py
-      env:
-        INPUT_FILE: "Copy of Yellow Pages Phase 1 Links Adam.xlsx"
-        OUTPUT_FILE: "output_3.csv"
 
     - name: Upload first output CSV
       uses: actions/upload-artifact@v3
@@ -53,9 +47,3 @@ jobs:
       with:
         name: scraped-data-2
         path: output_2.csv
-        
-    - name: Upload third output CSV
-      uses: actions/upload-artifact@v3
-      with:
-        name: scraped-data-2
-        path: output_3.csv
